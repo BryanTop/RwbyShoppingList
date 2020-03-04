@@ -4,8 +4,15 @@ function saveItem(e) {
     var shopingItemInput = document.getElementById('shopingItem').value;
     // localStorage.setItem("lastname", "Smith");
     // Setting local storage
+    var shopingItems = JSON.parse(localStorage.getItem('shopingItems'));
+    var i = 1;
+
+    shopingItems.forEach(element => {
+        i++
+    });
 
     var shopingItem = {
+        id: i,
         name: shopingItemInput
     }
 
@@ -13,6 +20,7 @@ function saveItem(e) {
     if(localStorage.getItem('shopingItems') === null) {
          
         var shopingItems = [];
+
 
         shopingItems.push(shopingItem);
 
@@ -28,11 +36,11 @@ function saveItem(e) {
     e.preventDefault();
 }
 
-function deleteListItem(name) {
+function deleteListItem(id) {
     var shopingItems = JSON.parse(localStorage.getItem('shopingItems'));
-
+    id = parseInt(id);
     for (let i = 0; i < shopingItems.length; i++) {
-        if (shopingItems[i].name === name) {
+        if (shopingItems[i].id === id) {
             shopingItems.splice(i, 1);
         }
         
@@ -51,10 +59,11 @@ function fetchListItems() {
 
     for (let i = 0; i < shopingItems.length; i++) {
         var name = shopingItems[i].name;
+        var id = shopingItems[i].id;
         
         listArea.innerHTML += `
         <ul>
-           <h3> <li> ${name}  </li> </h3><a class='btn btn-danger btn-l' href="#" onclick="deleteListItem('${name}')"> Delete </a>
+           <h3> <li class=''>${id}: ${name}  </li> </h3><a class='btn btn-danger btn-l' href="#" onclick="deleteListItem('${id}')"> Delete </a>
         </ul>
         
         `
